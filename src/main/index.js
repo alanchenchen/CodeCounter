@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu } = require('electron')
+const path = require('path')
 
 /**
  * Set `__static` path to static files in production
@@ -32,7 +33,7 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     //当前窗口的title只能从index.ejs里改变title标签
-    icon: 'build/icons/icon.ico', //注意路径！当前窗口的icon
+    icon: path.resolve(__static, 'icon.ico'), //注意路径！当前窗口的icon
     titleBarStyle: 'hiddenInset',
     width: 320,
     height: 550,
