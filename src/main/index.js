@@ -15,17 +15,19 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 //确保app只有一个实例运行
-const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
-  // Someone tried to run a second instance, we should focus our window.
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore()
-    mainWindow.focus()
+const stopMultiInstance = () => {
+  const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+  if (isSecondInstance) {
+    app.quit()
   }
-})
-
-if (isSecondInstance) {
-  app.quit()
 }
+stopMultiInstance()
 
 function createWindow () {
   /**
