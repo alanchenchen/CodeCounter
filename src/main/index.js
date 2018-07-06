@@ -36,7 +36,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     //当前窗口的title只能从index.ejs里改变title标签
     icon: path.resolve(__static, 'icon.ico'), //注意路径！当前窗口的icon
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: 'customButtonsOnHover',
     width: 320,
     height: 550,
     show: false,
@@ -57,8 +57,6 @@ function createWindow () {
   })
 }
 
-//设置程序的任务栏列表
-app.setUserTasks([])
 
 //主进程加载和关闭
 app.on('ready', () => {
