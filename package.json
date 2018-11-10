@@ -1,6 +1,6 @@
 {
   "name": "codecounter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "alanchenchen <739709491@qq.com>",
   "description": "An application to count code in electron-vue",
   "license": "MIT",

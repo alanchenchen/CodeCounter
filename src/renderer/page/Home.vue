@@ -3,7 +3,7 @@
     <img class="logo" src="~@/assets/logo.png" />
     <h1 class="title">CodeCounter</h1>
     <p class="description">轻量级统计代码的工具</p>
-    <Button icon="plus" @click="go">开始使用</Button>
+    <Button icon="plus" @click="go" type="dashed">开始使用</Button>
       <p class="author">作者: 
         <Tooltip content="开源不易，支持作者其它项目，thanks">
           <div class="link" @click="open('https://github.com/alanchenchen')">

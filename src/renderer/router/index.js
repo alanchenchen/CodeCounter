@@ -7,15 +7,15 @@ export default new Router({
     routes: [
         {
             path: '/',
-            component: () => import('@/components/Home')
+            component: () => import('@/page/Home')
         },
         {
             path: '/addFile',
-            component: () => import('@/components/AddFile')
+            component: () => import('@/page/AddFile')
         },
         {
             path: '/showResult',
-            component: () => import('@/components/ShowResult')
+            component: () => import('@/page/ShowResult')
         }
     ]
 })

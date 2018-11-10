@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 
-
 /**
  * @module 读取指定路径下所有的文件路径
  * @param {String} path 指定读取的文件夹路径
@@ -34,4 +33,5 @@ const fileList = (path, exclude) => {
     getFile(path, exclude, fileName => fl.push(fileName))
     return fl
 }
+
 module.exports = fileList

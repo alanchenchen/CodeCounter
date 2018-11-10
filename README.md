@@ -2,7 +2,7 @@
 
 > An application to count code in electron-vue
 
-> version:  1.0.0
+> version:  1.0.1
 
 > Author:  Alan Chen
 
@@ -24,15 +24,15 @@
  2. 过滤功能只对文件夹生效，在弹窗中按enter添加，注意添加后缀名必须带上点
  3. 注释规则文件名不需要带点，规则分为多行注释和单行注释，非必填，一个后缀名文件可以添加多个规则，但不可重复。
  4. 软件默认过滤`node_modules`和`.git`两个文件夹。
- 5. 软件默认提供js、html、css、jsx、java和vue等文件的注释规则
- 6. 读取代码的原理其实是将目标文件的buffer转换成utf-8的string，所以只支持uft-8编码的文件，默认不支持图片和office所有文件！也不要读取非utf-8的文件，否则统计结果不可信。大多数code的编码格式是utf-8。
+ 5. 软件默认提供js、go、html、css、jsx、java、vue、c和c++等文件的注释规则
+ 6. 读取代码的原理其实是将目标文件的buffer转换成utf-8的string，所以只支持uft-8编码的文件，默认不支持图片和office所有文件！也不要读取非utf-8的文件，否则统计结果不可信。大多数code的编码格式是utf-8。例如：读取LICENSE文件会报错，软件异常
 
 ### Download
 
-* [安装包版本](https://pan.baidu.com/s/1s-7ys5bYiYvApsj6g_i0uA)   密码: t4gy 
-* [绿色版本](https://pan.baidu.com/s/1HZtqWzXlxCkJzUCEju1g7w)    密码: 3yhj
+* [安装包版本](https://pan.baidu.com/s/1IsWndIKNg71tfTIZ0-kyiw)   密码: sb5g 
+* [绿色版本](https://pan.baidu.com/s/1ksohHS9X5cfThe4HMB8cBA)    密码: d8ir
  
-### Dictionary Tree
+### Directory Tree
 ``` bash
     ├─.electron-vue     electron-vue的webpack配置文件
     ├─build             
@@ -55,12 +55,13 @@
 ```
 
 ### 踩坑记录
- 1. electron本身下载必须翻墙！使用cnpm等着包出错吧~
+ 1. electron本身下载必须翻墙！使用cnpm等着包出错吧~建议全程使用yarn
  2. electron-builder 嗯...不用说了，翻墙吧
  3. 为了阻止程序多开，也是找了好久才找到makeSingleInstance这个api...
  4. 无边框窗口也是坑，默认的title右键菜单隐藏不了...嗯，就这样了
  5. 窗口的title只能从index.html里改变title标签...文档哪里说了？
- 6. 感慨一下，还是原生node用的舒服，不用管什么electron重新编译一把...就这么多吧
+ 6. 主进程中window的icon必须是路径！不能是图片base64数据！所以在electron-vue中一定要把icon放在static目录
+ 7. 感慨一下，还是原生node用的舒服，不用管什么electron重新编译一把...就这么多吧
 
 ### Build Setup
 

@@ -6,40 +6,48 @@
  */
 
 export const lineCounter = (file, rule) => {
-    const removeBlankLine = file.split('\n').map((a,b) => {
+    // 去除换行符返回的有效字符串数组
+    const totalLine = file.split('\n').map((a,b) => {
         const line = b+1
         const data = a
         return {line,data}
     })
 
-    const blankLine = removeBlankLine.filter(a => {
+    // 空格符数组
+    const blankLine = totalLine.filter(a => {
         return a.data.trim() == ''
     }).map(b => ({line:b.line}))
 
-    let enableMultipleComment = false
-
-    const getComment = (multipleRule=undefined, singleRule=undefined) => {
-        const comment = removeBlankLine.map((a,b) => {
+    /**
+     * @function getComment
+     * @description 读取一种规则下的注释信息
+     * @param {Array} block 必须包含start(块注释起始)和end(块注释结束)两个值 
+     * @param {String} row 行内注释标识符
+     * @returns {Array} 返回一个数组，当前规则下文件的注释信息，数组项包含flag(注释标识符)和line(行号)两个值
+     */
+    const getComment = (block=undefined, row=undefined) => {
+        let enableMultipleComment = false
+        const comment = totalLine.map( a => {
             const current = a.data.trim()
             const value = {line: a.line}
-            const trigger = Boolean(enableMultipleComment) == true
+            const trigger = Boolean(enableMultipleComment)
 
             //单行注释
-            if(Boolean(singleRule) && current.startsWith(singleRule)) {
-                return {...value, flag: singleRule}
+            if(Boolean(row) && current.startsWith(row)) {
+                return {...value, flag: row}
             }
-            const flag = multipleRule.start + multipleRule.end
-            if(Boolean(multipleRule.start) && Boolean(multipleRule.start)) {
+            const flag = block.start + block.end
+            if(Boolean(block.start) && Boolean(block.start)) {
                 //多行注释写在一行
-                if(current.startsWith(multipleRule.start) && current.endsWith(multipleRule.end)) {
+                if(current.startsWith(block.start) && current.endsWith(block.end)) {
                     return {...value, flag}
                 }
                 //多行注释写在多行
-                else if(current.startsWith(multipleRule.start) && !current.endsWith(multipleRule.end)) {
+                else if(current.startsWith(block.start) && !current.endsWith(block.end)) {
                     enableMultipleComment = true //开启多行注释
                     return {...value, flag}
                 }
-                else if(current.startsWith(multipleRule.end)) {
+                else if(current.endsWith(block.end)) {
                     enableMultipleComment = false //关闭多行注释
                     return {...value, flag}
                 } 
@@ -52,14 +60,15 @@ export const lineCounter = (file, rule) => {
     }
     //一个文件中多种注释循环提取,然后将结果按照行号升序展示
     let commentLine = rule.reduce((total,item) => {
-        const comment = getComment(item.multiple, item.single)
+        const comment = getComment(item.block, item.row)
         return [...total, ...comment]
     },[]).sort((a,b) => a.line-b.line)
     
     return {
-        totalLineNum:  removeBlankLine.length,
+        totalLineNum:  totalLine.length,
         commentLineNum: commentLine.length,
         blankLineNum: blankLine.length,
+        totalLineCode: totalLine,
         blankLineCode: blankLine,
         commentLineCode: commentLine
     }
