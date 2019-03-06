@@ -1,7 +1,7 @@
 /**
  * @module 读取文件的代码总行数、空白行数和注释行数,自动处理注释规则为空的情况
  * @param {String} file required 读取的文件String
- * @param {Object} rule required 读取的文件注释规则
+ * @param {Array} rule required 读取的文件注释规则，数组项可选包含row和block的key值，row必须是字符串，block必须是包含start和end两个key的对象，block和row可选。
  * @returns {Object}  返回一个包含代码总行数，空白行数，注释行数和具体代码的对象
  */
 
@@ -37,7 +37,7 @@ export const lineCounter = (file, rule) => {
                 return {...value, flag: row}
             }
             const flag = block.start + block.end
-            if(Boolean(block.start) && Boolean(block.start)) {
+            if(Boolean(block.start) && Boolean(block.end)) {
                 //多行注释写在一行
                 if(current.startsWith(block.start) && current.endsWith(block.end)) {
                     return {...value, flag}
