@@ -4,6 +4,7 @@ build/bin
 # IDEs
 .idea
 .vscode
+.DS_Store
 
 # fronted resources
 frontend/node_modules

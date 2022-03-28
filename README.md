@@ -8,6 +8,8 @@
 
 > Technology stack:  Vue2 + Vite + iview + Golang + Wails v2
 
+`electron版本见branch v1`
+
 ### Features
  * 采用wails v2包生成app、exe可执行文件，方便离线使用。
  * wails使用系统自带webview，而不是electron内置，软件打包后安装包2～3M，比内置chromium方案磁盘占用、内存占用率优秀很多
