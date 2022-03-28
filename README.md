@@ -1,17 +1,18 @@
 # Code Counter
 
-> An application to count code in electron-vue
+> An application to count code in wails(golang)
 
-> version:  1.0.1
+> version:  2.0.0
 
 > Author:  Alan Chen
 
-> Technology stack:  Vue + Electron + Webpack + Node + iview
+> Technology stack:  Vue2 + Vite + iview + Golang + Wails v2
 
 ### Features
- * 采用electron框架生成exe可执行文件，方便离线使用。软件打包后安装包30多M，解压缩133M左右(集成chromium没办法...)
- * node异步io操作很快，多个文件解析采用了promise.all来并行运行，不是async的串行
- * 支持拖拽文件或文件夹读取文件，自定义统计哪个文件夹下代码数量
+ * 采用wails v2包生成app、exe可执行文件，方便离线使用。
+ * wails使用系统自带webview，而不是electron内置，软件打包后安装包2～3M，比内置chromium方案磁盘占用、内存占用率优秀很多
+ * golang的go routine在读取文件和cpu计算会充分利用多核处理器，处理速度更快
+ * 支持文件夹读取文件，自定义统计哪个文件夹下代码数量
  * 支持文件(夹)过滤，支持对应后缀名文件过滤
  * 支持对应后缀名文件添加自定义注释规则，目前只自带很小一部分代码的默认注释规则
 
@@ -20,64 +21,53 @@
 ![](./screenshot/screenshot3.png)
 
 ### Usage Help
- 1. 拖拽即可读取文件(夹)，目前仅支持同时统计一个文件和一个文件夹，再次拖拽会覆盖
+ 1. 点击即可读取文件夹，目前仅支持统计一个文件夹，再次添加会覆盖
  2. 过滤功能只对文件夹生效，在弹窗中按enter添加，注意添加后缀名必须带上点
  3. 注释规则文件名不需要带点，规则分为多行注释和单行注释，非必填，一个后缀名文件可以添加多个规则，但不可重复。
  4. 软件默认过滤`node_modules`和`.git`两个文件夹。
- 5. 软件默认提供js、go、html、css、jsx、java、vue、c和c++等文件的注释规则
- 6. 读取代码的原理其实是将目标文件的buffer转换成utf-8的string，所以只支持uft-8编码的文件，默认不支持图片和office所有文件！也不要读取非utf-8的文件，否则统计结果不可信。大多数code的编码格式是utf-8。例如：读取LICENSE文件会报错，软件异常
+ 5. 软件默认提供js、ts、go、jsx、tsx、vue、svelte、html、css、java、vue、c和cpp等后缀名文件的注释规则
+ 6. 读取代码的原理其实是将目标文件的buffer转换成utf-8的string，所以只支持uft-8编码的文件，。大多数code的编码格式是utf-8。
 
 ### Download
-
-* [安装包版本](https://pan.baidu.com/s/1IsWndIKNg71tfTIZ0-kyiw)   密码: sb5g 
-* [绿色版本](https://pan.baidu.com/s/1ksohHS9X5cfThe4HMB8cBA)    密码: d8ir
+> 见[release](https://github.com/alanchenchen/CodeCounter/releases)
  
 ### Directory Tree
 ``` bash
-    ├─.electron-vue     electron-vue的webpack配置文件
-    ├─build             
-    │  ├─icons          electron-builder打包的icon
-    ├─dist
-    │  ├─electron
-    │  │  ├─fonts
-    │  │  └─imgs
-    │  └─web
-    ├─screenshot        
-    ├─src
-    │  ├─main           主进程
-    │  └─renderer       渲染进程
-    │      ├─assets
-    │      ├─common     
-    │      ├─components     页面组件
-    │      ├─router
-    │      └─utils      主要的node模块方法
-    └─static
+    ├─build                 编译平台相关的配置文件、可执行程序
+    ├─count                 code counter的主要go module
+    ├─frontend              wails展示的前端静态资源，wails不强关联前端框架和构建工具
+    │  ├─src
+    │  ├─wailsjs            wails在加载静态资源时自动生成的方法bindings，见wails文档
+    │  ├─index.html
+    │  ├─package.json
+    │  └─vite.config.js     vite config配置
+    ├─screenshot  
+    ├─scripts               wails的常用命令组合的shell脚本，见wails文档
+    ├─app.go                wails程序的app结构体，主要用于绑定go方法到js运行时，见wails文档
+    ├─main.go               wails程序的入口，初始化，见wails文档
+    └─wails.json            wails cli打包程序需要的配置，见wails文档
 ```
 
-### 踩坑记录
- 1. electron本身下载必须翻墙！使用cnpm等着包出错吧~建议全程使用yarn
- 2. electron-builder 嗯...不用说了，翻墙吧
- 3. 为了阻止程序多开，也是找了好久才找到makeSingleInstance这个api...
- 4. 无边框窗口也是坑，默认的title右键菜单隐藏不了...嗯，就这样了
- 5. 窗口的title只能从index.html里改变title标签...文档哪里说了？
- 6. 主进程中window的icon必须是路径！不能是图片base64数据！所以在electron-vue中一定要把icon放在static目录
- 7. 感慨一下，还是原生node用的舒服，不用管什么electron重新编译一把...就这么多吧
+### Development Setup
+#### Required dependencies
+- Go 1.17+
+- wails v2 beta+
+- NPM (Node 15+)
+> 详细见[wails文档](https://wails.io/zh-Hans/docs/gettingstarted/installation)
 
-### Build Setup
+#### Dev liveload
+项目逻辑分为前端和后端
+- 前端可以使用任意框架，兼容性不用过于考虑，因为windows平台使用的webview2(和chromium一致)，前端使用go绑定方法也十分简单，都是挂载windows对象
+- 后端的go方法可以使用任意go module，当需要绑定给js运行时，只需要在`app.go`里扩展App struct的接收器方法即可
+- 如果需要在程序运行中使用前端项目的hot load热更新，必须要先打开一个终端运行`wails dev`，然后另一个终端运行`npm run dev`
+- wails读取前端静态资源的策略比较奇怪，所以不建议使用wails的frontend构建
 
-``` bash
-# install dependencies
-npm install or yarn
+#### Build
+- target是mac平台
+    - 本机必须是mac系统，可以同时编译amd64、arm64架构
+- target是windows平台
+    - 只能编译windows，可以同时编译amd64、arm64架构
 
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-```
-### 
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[7c4e3e9](https://github.com/SimulatedGREG/electron-vue/tree/7c4e3e90a772bd4c27d2dd4790f61f09bae0fcef) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+- 所有平台均可使用upx来压缩，压缩比例非常强
+- mac平台编译完的是app文件，windows默认编译完的是exe，所有平台均可使用nsis来打包exe
+- wails使用的方案是系统自带的webview，目前macos/linux主流版本均内置，windows平台使用的webview2只在部分win10和正式win11内置，所以当你的windwos系统中不存在webview2时，程序启动后会引导你安装，大概118M左右

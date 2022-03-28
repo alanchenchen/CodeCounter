@@ -1,0 +1,32 @@
+{
+  "name": "Code Counter",
+  "assetdir": "frontend/dist",
+  "frontend:build": "",
+  "frontend:install": "",
+  "frontend:dev": "",
+  "frontend:dev:watcher": "",
+  "wailsjsdir": "frontend/src",
+  "version": "2",
+  "Path": "",
+  "BuildDir": "",
+  "outputfilename": "Code Counter",
+  "OutputType": "",
+  "Platform": "",
+  "runNonNativeBuildHooks": false,
+  "postBuildHooks": null,
+  "Author": {
+    "name": "alanchenchen",
+    "email": "739709491@qq.com"
+  },
+  "Info": {
+    "companyName": "Code Counter",
+    "productName": "Code Counter",
+    "productVersion": "2.0.0",
+    "copyright": "Copyright Alan Chen @2022",
+    "comments": "Built using Wails (https://wails.app)"
+  },
+  "debounceMS": 100,
+  "devserverurl": "http://localhost:34115",
+  "appargs": "",
+  "nsisType": ""
+}
