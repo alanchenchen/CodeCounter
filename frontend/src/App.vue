@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="nav_bar">
-      <span data-wails-drag class="title">{{ title }}</span>
+      <span style="--wails-draggable:drag" class="title">{{ title }}</span>
       <Icon
         v-if="!isHome"
         type="android-arrow-back"
@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import go from "./wailsjs/go";
+import * as Native from "./wailsjs/go/main/App";
+import { WindowMinimise } from "./wailsjs/runtime/runtime";
 
 export default {
   name: "App",
@@ -90,7 +91,7 @@ export default {
     },
     //最小化
     minimize() {
-      window.runtime.WindowMinimise();
+      WindowMinimise();
     },
     //退出程序
     exit() {
@@ -98,7 +99,7 @@ export default {
         title: "提示",
         content: "确定关闭程序吗？",
         onOk: () => {
-          go.main.App.Quit();
+          Native.Quit();
         },
       });
     },

@@ -2,7 +2,7 @@
 
 > An application to count code in wails(golang)
 
-> version:  2.0.0
+> version:  2.0.1
 
 > Author:  Alan Chen
 
@@ -39,7 +39,7 @@
     ├─count                 code counter的主要go module
     ├─frontend              wails展示的前端静态资源，wails不强关联前端框架和构建工具
     │  ├─src
-    │  ├─wailsjs            wails在加载静态资源时自动生成的方法bindings，见wails文档
+    │   └─wailsjs           wails在加载静态资源时自动生成的方法bindings，见wails文档
     │  ├─index.html
     │  ├─package.json
     │  └─vite.config.js     vite config配置
@@ -65,6 +65,10 @@
 - wails读取前端静态资源的策略比较奇怪，所以不建议使用wails的frontend构建
 
 #### Build
+```bash
+# 使用upx压缩打包
+$ wails build --upx
+```
 - target是mac平台
     - 本机必须是mac系统，可以同时编译amd64、arm64架构
 - target是windows平台

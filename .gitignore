@@ -8,6 +8,7 @@ build/bin
 
 # fronted resources
 frontend/node_modules
-frontend/wailsjs
+frontend/src/wailsjs
 frontend/dist/index.html
 frontend/dist/assets
+frontend/package.json.md5

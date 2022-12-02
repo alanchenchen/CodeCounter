@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { BrowserOpenURL } from "../wailsjs/runtime/runtime";
 
 export default {
   name: "Home",
@@ -25,7 +26,7 @@ export default {
       this.$router.push("/addFile");
     },
     open(link) {
-      window.runtime.BrowserOpenURL(link);
+      BrowserOpenURL(link);
     },
   },
 };

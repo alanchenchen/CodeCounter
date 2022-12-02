@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import go from "../wailsjs/go";
+import * as Native from "../wailsjs/go/main/App";
 import CModal from "@/components/CModal.vue";
 import CItem from "@/components/CItem.vue";
 
@@ -147,7 +147,7 @@ export default {
     // 添加文件夹路径
     async addFileDir() {
       try {
-        const res = await go.main.App.OpenDirectoryDialog({
+        const res = await Native.OpenDirectoryDialog({
           Title: "选择需要计算代码行数的文件夹",
           ShowHiddenFiles: false,
           TreatPackagesAsDirectories: true,
@@ -236,7 +236,7 @@ export default {
         const startTime = new Date().getTime();
         const countTime = new Date().toLocaleString();
 
-        const res = await go.main.App.ReadCodeLinesByDirFiles(
+        const res = await Native.ReadCodeLinesByDirFiles(
           fileDir,
           exclude,
           rule

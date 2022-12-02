@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import go from "../wailsjs/go";
+import * as Native from "../wailsjs/go/main/App";
 
 export default {
   data() {
@@ -65,9 +65,9 @@ export default {
           DefaultFilename: defaultName,
           Filters: [{ DisplayName: "Text (*.txt)", Pattern: "*.txt" }],
         };
-        const filename = await go.main.App.SaveFileDialog(options);
+        const filename = await Native.SaveFileDialog(options);
         if (filename) {
-          await go.main.App.WriteFile(filename, str);
+          await Native.WriteFile(filename, str);
           //任务栏窗口闪烁提示用户
           // const currentWindow = this.$electron.remote.getCurrentWindow();
           // currentWindow.flashFrame(true);

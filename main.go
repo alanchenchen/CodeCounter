@@ -4,6 +4,7 @@ import (
 	"embed"
 	"log"
 
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 
 	"github.com/wailsapp/wails/v2"
@@ -29,13 +30,15 @@ func main() {
 		DisableResize:     true,
 		Fullscreen:        false,
 		Frameless:         true,
-		StartHidden:       false,
+		StartHidden:       true,
 		HideWindowOnClose: false,
-		RGBA:              &options.RGBA{R: 33, G: 37, B: 43, A: 255},
-		Assets:            assets,
-		OnStartup:         app.startup,
-		OnDomReady:        app.domReady,
-		OnShutdown:        app.shutdown,
+		BackgroundColour:  options.NewRGBA(255, 255, 255, 0), // 先让背景色透明，然后在页面加载后显示窗口
+		AssetServer: &assetserver.Options{
+			Assets: assets,
+		},
+		OnStartup:  app.startup,
+		OnDomReady: app.domReady,
+		OnShutdown: app.shutdown,
 		Bind: []interface{}{
 			app,
 		},

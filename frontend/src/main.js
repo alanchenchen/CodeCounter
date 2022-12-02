@@ -11,11 +11,11 @@ Vue.use(iView);
 //路由跳转加入loadingbar全局提示
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
-  next()
+  next();
 });
 
 router.afterEach(route => {
-  iView.LoadingBar.finish()
+  iView.LoadingBar.finish();
 });
 
 new Vue({

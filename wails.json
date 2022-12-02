@@ -1,9 +1,9 @@
 {
   "name": "Code Counter",
   "assetdir": "frontend/dist",
-  "frontend:build": "",
-  "frontend:install": "",
-  "frontend:dev": "",
+  "frontend:build": "npm run build",
+  "frontend:install": "npm install",
+  "frontend:dev": "npm run dev",
   "frontend:dev:watcher": "",
   "wailsjsdir": "frontend/src",
   "version": "2",
@@ -21,7 +21,7 @@
   "Info": {
     "companyName": "Code Counter",
     "productName": "Code Counter",
-    "productVersion": "2.0.0",
+    "productVersion": "2.0.1",
     "copyright": "Copyright Alan Chen @2022",
     "comments": "Built using Wails (https://wails.app)"
   },
